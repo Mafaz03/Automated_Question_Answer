@@ -1,9 +1,36 @@
+
+class bcolors:
+    CORRECT = '\033[93m'
+    FAIL = '\033[91m'
+    NOTATTENDED = '\033[94m'
+    RESET = "\033[0m"
+
 class ptable:
-    def __init__ (self, rows):
+    def __init__ (self, rows=None):
         self.horizontal_str = ""
-        self.rows = rows
-        flattened_row = [item for sublist in rows for item in sublist]
-        self.max_col_width = max(map(len, flattened_row))
+        if rows != None: 
+            self.rows = [list(map(str, r)) for r in rows]
+            flattened_row = [item for sublist in self.rows for item in sublist]
+            self.max_col_width = max(map(len, flattened_row))
+
+    def make_matrix(self, to, skip, prefix = "", correct = [], failed = [], not_attended = []):
+        levels = []
+        for i in range(1, to+1, skip):
+            if prefix != "":
+                levels.append(prefix+str(i) for i in list(range(i,i+skip)))
+            else: levels.append(i for i in list(range(i,i+skip)))
+        pt = ptable(levels)
+        pt.make_row()
+
+        for level in not_attended:
+            pt.horizontal_str = pt.horizontal_str.replace(f"Level: {level}", bcolors.NOTATTENDED+f"Level: {level}"+bcolors.RESET, 1)
+        for level in correct:
+            pt.horizontal_str = pt.horizontal_str.replace(f"Level: {level}", bcolors.CORRECT+f"Level: {level}"+bcolors.RESET, 1)
+        for level in failed:
+            pt.horizontal_str = pt.horizontal_str.replace(f"Level: {level}", bcolors.FAIL+f"Level: {level}"+bcolors.RESET, 1)
+        
+
+        print(pt.horizontal_str)
 
     def make_row(self):
         for row in self.rows:
