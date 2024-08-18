@@ -21,6 +21,10 @@ class test_repl:
         while True:
             str(input("hello: "))
 
+def show_table(rows):
+    pt = ptable(rows)
+    pt.make_row()
+    print(pt.horizontal_str)
 
 
 class sample_repl:
@@ -45,29 +49,35 @@ class sample_repl:
         i = 0
         while i <= self.ques_number:
             user_input = str(input(f"Explore or go to questions: "))
+            if user_input.lower() == 'help':
+                show_table([[k, comm[k].__doc__] for k in list(comm.keys())])
 
             if user_input in list(comm.keys()):
+
                 while user_input.lower() != 'break':
                     comm[user_input.lower()](*self.arguments)
                     user_input = str(input(f"To go back to question, type 'break': "))
-               
-            while user_input.lower() != "menu":
-                
-                mcq_qa = question_comm['mcq'](self.subject, self.difficulty).splitlines()
-                mcq_q = '\n'.join(mcq_qa[:-1])
-                mcq_a = ''.join(mcq_qa[-1])
-                print('\n'+mcq_q)
-                
-                user_input = str(input(f"Question numer {i+1}; Enter option (a-b): "))
-                if user_input.lower() == "menu": break
-                if mcq_a.lower() == str(user_input).lower():
-                    self.correct.append(i+1)
-                    print("Correct")
-                else: 
-                    self.failed.append(i+1)
-                    print("Incorrect, correct option was: ", mcq_a)
-                i += 1
-                if self.ques_number >= i: break
+            if user_input.lower() == 'questions':
+                while user_input.lower() != "menu":
+                    
+                    mcq_qa = question_comm['mcq'](self.subject, self.difficulty).splitlines()
+                    mcq_q = '\n'.join(mcq_qa[:-1])
+                    mcq_a = ''.join(mcq_qa[-1])
+                    print('\n'+mcq_q)
+                    
+                    user_input = str(input(f"Question numer {i+1}; Enter option (a-b): "))
+                    if user_input.lower() == 'help':
+                        show_table([[k, question_comm[k].__doc__] for k in list(question_comm.keys())])
+
+                    if user_input.lower() == "menu": break
+                    if mcq_a.lower() == str(user_input).lower():
+                        self.correct.append(i+1)
+                        print("Correct")
+                    else: 
+                        self.failed.append(i+1)
+                        print("Incorrect, correct option was: ", mcq_a)
+                    i += 1
+                    if i >= self.ques_number : break
 
 
 r = sample_repl()
