@@ -1,1 +1,1 @@
-prettytable==3.9.0
+openai==3.9.0

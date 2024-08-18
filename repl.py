@@ -29,6 +29,8 @@ class sample_repl:
         while self.ques_number == 0 or self.ques_number%5 != 0 :
             self.ques_number = int(input("Enter a valid number of questions (make sure it is divisble by 5) (-1 to escape): "))
             if self.ques_number == -1: break
+        self.subject = str(input("Enter a subject: "))
+        self.difficulty = str(input("Enter difficulty (0-100): "))
 
         self.skip_val = 5
         self.pt = ptable()
@@ -42,19 +44,30 @@ class sample_repl:
     def start(self):
         i = 0
         while i <= self.ques_number:
-            a = random.randint(5,10)
-            print(a)
-            user_input = str(input(f"Question numer {i} Enter a number between (0-10): "))
+            user_input = str(input(f"Explore or go to questions: "))
 
             if user_input in list(comm.keys()):
-                comm[user_input.lower()](*self.arguments)
-                    
-            else:
-                if a == int(user_input):
+                while user_input.lower() != 'break':
+                    comm[user_input.lower()](*self.arguments)
+                    user_input = str(input(f"To go back to question, type 'break': "))
+               
+            while user_input.lower() != "menu":
+                
+                mcq_qa = question_comm['mcq'](self.subject, self.difficulty).splitlines()
+                mcq_q = '\n'.join(mcq_qa[:-1])
+                mcq_a = ''.join(mcq_qa[-1])
+                print('\n'+mcq_q)
+                
+                user_input = str(input(f"Question numer {i+1}; Enter option (a-b): "))
+                if user_input.lower() == "menu": break
+                if mcq_a.lower() == str(user_input).lower():
                     self.correct.append(i+1)
-                else: self.failed.append(i+1)
+                    print("Correct")
+                else: 
+                    self.failed.append(i+1)
+                    print("Incorrect, correct option was: ", mcq_a)
                 i += 1
-
+                if self.ques_number >= i: break
 
 
 r = sample_repl()
