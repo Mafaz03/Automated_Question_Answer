@@ -1,7 +1,8 @@
 import random
 from ptable import *
+from commands import *
 
-class repl:
+class test_repl:
     def __init__(self) -> None:
         self.hardness = 0
         self.subject = ""
@@ -21,6 +22,7 @@ class repl:
             str(input("hello: "))
 
 
+
 class sample_repl:
     def __init__(self) -> None:
         self.ques_number = int(input("Enter number of questions (make sure it is divisble by 5): "))
@@ -34,8 +36,9 @@ class sample_repl:
         self.failed=[]
         self.not_attended = list(range(self.ques_number+1))
 
-        self.assistant_keyword = ["score", "subject"]
+
         self.pt = ptable()
+        self.arguments = [self.pt, self.ques_number, self.skip_val, self.correct, self.failed, self.not_attended]
     def start(self):
         i = 0
         while i <= self.ques_number:
@@ -43,30 +46,15 @@ class sample_repl:
             print(a)
             user_input = str(input(f"Question numer {i} Enter a number between (0-10): "))
 
-            if user_input in self.assistant_keyword:
-                if user_input == "score":
-                    self.pt.make_matrix(self.ques_number, self.skip_val, prefix="Level: ", correct=self.correct, failed=self.failed, not_attended=self.not_attended)
-
-                if user_input.lower() == "subject":
-                    rows = [["Physics", "Chemistry", "Math", "Biology"], ["Computer Science", "Soft Skills", "Aptitude", "English"], ["French", "Machine Learning", "Data Mining", "Statistics"]]
-                    pt = ptable(rows)
-                    pt.make_row()
-                    print(pt.horizontal_str)
+            if user_input in list(comm.keys()):
+                comm[user_input.lower()](*self.arguments)
+                    
             else:
                 if a == int(user_input):
                     self.correct.append(i+1)
                 else: self.failed.append(i+1)
                 i += 1
 
-        # while self.subject.lower() == "score":
-        #     rows = [["Physics", "Chemistry", "Math", "Biology"], ["Computer Science", "Soft Skills", "Aptitude", "English"], ["French", "Machine Learning", "Data Mining", "Statistics"]]
-        #     pt = ptable(rows)
-        #     pt.make_row()
-        #     print(pt.horizontal_str)
-
-        #     self.subject = str(input("\nSelect your subject ('help' for assistance): "))
-        # while True:
-        #     str(input("hello: "))
 
 
 r = sample_repl()
