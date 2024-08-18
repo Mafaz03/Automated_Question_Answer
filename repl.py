@@ -1,6 +1,7 @@
 import random
 from ptable import *
 from commands import *
+from prettytable import PrettyTable
 
 class test_repl:
     def __init__(self) -> None:
@@ -26,6 +27,13 @@ def show_table(rows):
     pt.make_row()
     print(pt.horizontal_str)
 
+def show_ptable(rows):
+    pt = PrettyTable()
+    pt.field_names = rows[0]
+    for row in rows[1:]:
+        pt.add_row(row)
+    print(pt)
+
 
 class sample_repl:
     def __init__(self) -> None:
@@ -45,18 +53,24 @@ class sample_repl:
 
         self.pt = ptable()
         self.arguments = [self.pt, self.ques_number, self.skip_val, self.correct, self.failed, self.not_attended]
+        
+        ASCII.menu()
+        show_table([["Command", "Description"], ["Menu (you are here)", comm['description']], ["Questions", question_comm["description"]]])
+
     def start(self):
         i = 0
         while i <= self.ques_number:
             user_input = str(input(f"Explore or go to questions: "))
             if user_input.lower() == 'help':
-                show_table([[k, comm[k].__doc__] for k in list(comm.keys())])
+                show_table([["Command", "Description"]] + [[k, comm[k].__doc__] for k in list(comm.keys()) if k != "description"] + [['questions', 'Go towards questions']])
 
             if user_input in list(comm.keys()):
 
                 while user_input.lower() != 'break':
                     comm[user_input.lower()](*self.arguments)
                     user_input = str(input(f"To go back to question, type 'break': "))
+                    if user_input.lower() == 'help':
+                        show_table([["Command", "Description"], ['break', 'Go towards questions']])
             if user_input.lower() == 'questions':
                 while user_input.lower() != "menu":
                     
@@ -65,9 +79,9 @@ class sample_repl:
                     mcq_a = ''.join(mcq_qa[-1])
                     print('\n'+mcq_q)
                     
-                    user_input = str(input(f"Question numer {i+1}; Enter option (a-b): "))
+                    user_input = str(input(f"Question numer {i+1}; Enter option (a-d): "))
                     if user_input.lower() == 'help':
-                        show_table([[k, question_comm[k].__doc__] for k in list(question_comm.keys())])
+                        show_table([[k, question_comm[k].__doc__] for k in list(question_comm.keys()) if k != "description"])
 
                     if user_input.lower() == "menu": break
                     if mcq_a.lower() == str(user_input).lower():
