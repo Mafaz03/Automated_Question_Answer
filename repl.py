@@ -2,7 +2,7 @@ import random
 from ptable import *
 from commands import *
 from prettytable import PrettyTable
-
+from colors import *
 
 
 def show_table(rows):
@@ -16,6 +16,9 @@ def show_ptable(rows):
     for row in rows[1:]:
         pt.add_row(row)
     print(pt)
+
+def color_text(string, color):
+    return color + string + bcolors.RESET
 
 
 class sample_repl:
@@ -37,12 +40,14 @@ class sample_repl:
         self.pt = ptable()
         self.arguments = [self.pt, self.ques_number, self.skip_val, self.correct, self.failed, self.not_attended]
         
-        ASCII.menu()
-        show_table([["Command", "Description"], ["Menu (you are here)", comm['description']], ["Questions", question_comm["description"]]])
 
     def start(self):
+        asked = []
         i = 0
         while i <= self.ques_number:
+            ASCII.menu()
+            show_table([["Command", "Description"], ["Menu (you are here)", comm['description']], ["Questions", question_comm["description"]]])
+
             user_input = str(input(f"Explore or go to questions: "))
             if user_input.lower() == 'help':
                 show_table([["Command", "Description"]] + [[k, comm[k].__doc__] for k in list(comm.keys()) if k != "description"] + [['questions', 'Go towards questions']])
@@ -54,25 +59,43 @@ class sample_repl:
                     user_input = str(input(f"To go back to question, type 'break': "))
                     if user_input.lower() == 'help':
                         show_table([["Command", "Description"], ['break', 'Go towards questions']])
+
             if user_input.lower() == 'questions':
                 while user_input.lower() != "menu":
                     
-                    mcq_qa = question_comm['mcq'](self.subject, self.difficulty).splitlines()
+                    if i == 0: asked.append('')
+                    else: asked.append(mcq_qa[0])
+                    mcq_qa = question_comm['mcq'](self.subject, self.difficulty, "\n".join(asked)).splitlines()
                     mcq_q = '\n'.join(mcq_qa[:-1])
                     mcq_a = ''.join(mcq_qa[-1])
-                    print('\n'+mcq_q)
+                    # import pdb; pdb.set_trace()
+                    print('\n'+color_text(mcq_q,bcolors.BRIGHT_MAGENTA))
+                    # print(asked)
                     
                     user_input = str(input(f"Question numer {i+1}; Enter option (a-d): "))
                     if user_input.lower() == 'help':
                         show_table([[k, question_comm[k].__doc__] for k in list(question_comm.keys()) if k != "description"])
 
                     if user_input.lower() == "menu": break
-                    if mcq_a.lower() == str(user_input).lower():
+
+                    ans = str(user_input).lower()
+                    option = mcq_a[0]
+                    answer = mcq_a[2:]
+    
+                    if option.lower() == ans:                    
                         self.correct.append(i+1)
-                        print("Correct")
+                        print(color_text("\nCorrect\n", bcolors.YELLOW))
                     else: 
                         self.failed.append(i+1)
-                        print("Incorrect, correct option was: ", mcq_a)
+                        print(color_text(f"\nIncorrect, correct option was: {mcq_a}\n", bcolors.RED))
+
+                    user_input = str(input("Read for next question? (learn more/Y): "))
+                    if user_input.lower() == 'help':
+                        show_table([[k, question_comm[k].__doc__] for k in list(question_comm.keys()) if k != "description"])
+                    if user_input.lower() == "learn more":
+                        wiki_result = question_comm['learn_more'](answer)
+                        print(wiki_result)
+                        print("\nReturning to questions")
                     i += 1
                     if i >= self.ques_number : break
 

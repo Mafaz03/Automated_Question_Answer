@@ -9,7 +9,6 @@ client = OpenAI(
     )
 
 def chat_with_gpt(prompt):
-    
     chat_completion = client.chat.completions.create(
         messages=[
             {

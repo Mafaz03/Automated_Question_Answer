@@ -1,9 +1,4 @@
-
-class bcolors:
-    CORRECT = '\033[93m'
-    FAIL = '\033[91m'
-    NOTATTENDED = '\033[94m'
-    RESET = "\033[0m"
+from colors import *
 
 class ptable:
     def __init__ (self, rows=None):
@@ -28,7 +23,7 @@ class ptable:
             pt.horizontal_str = pt.horizontal_str.replace(f"Level: {level}", bcolors.CORRECT+f"Level: {level}"+bcolors.RESET, 1)
         for level in failed:
             pt.horizontal_str = pt.horizontal_str.replace(f"Level: {level}", bcolors.FAIL+f"Level: {level}"+bcolors.RESET, 1)
-        
+
 
         print(pt.horizontal_str)
 
