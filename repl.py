@@ -81,8 +81,8 @@ class sample_repl:
                     ans = str(user_input).lower()
                     option = mcq_a[0]
                     answer = mcq_a[2:]
-    
-                    if option.lower() == ans:                    
+                    # print(option, ans[0])
+                    if option.lower() == ans[0]:                    
                         self.correct.append(i+1)
                         print(color_text("\nCorrect\n", bcolors.YELLOW))
                     else: 

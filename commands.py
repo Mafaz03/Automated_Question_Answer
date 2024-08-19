@@ -80,12 +80,13 @@ def learn_more(keyword):
 The {entity_label} is best described as {entity_description}. 
 
 For more detailed information, you can visit the Wikipedia page: {wikipedia_link}.
+
 """
 
     return paragraph
     
     
-    """Helps user gain more knowledge on the topic"""
+#Helps user gain more knowledge on the topic
    # return f"Wikipedia article on {keyword}"...Call the function(learn_more(keyword)).. 
    
     
