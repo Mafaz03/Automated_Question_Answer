@@ -6,7 +6,7 @@ import requests
 def subjects(*_):
     """Gets the subjects list"""
     rows = [["Physics", "Chemistry", "Math", "Biology"], ["Computer Science", "Soft Skills", "Aptitude", "English"], ["French", "Machine Learning", "Data Mining", "Statistics"]]
-    pt = ptable(rows)
+    pt = Ptable(rows)
     pt.make_row()
     print(pt.horizontal_str)
 
@@ -18,8 +18,15 @@ def score(table_state, ques_number, skip_val, correct, failed, not_attended):
                             correct=correct, 
                             failed=failed, 
                             not_attended=not_attended)
+    print(f"\n{len(correct)} out of {ques_number}")
+    if len(correct) + len(failed) == ques_number: print("\nCongrats, quizz completed\n")
+    else: print(f"\n{ques_number-(len(correct) + len(failed))} questions yet to attend\n")
+    
+def help(*_):
+    """View possible commands"""
+    pass
 
-comm = {"description": "Explore the menu for this tool", "subjects": subjects, "score": score}
+comm = {"description": "Explore the menu for this tool", "subjects": subjects, "score": score, "help": help}
 
 def mcq(topic, difficulty, asked, *_):
     """Generates mcq"""

@@ -1,6 +1,7 @@
 from colors import *
+from helper_code import color_text
 
-class ptable:
+class Ptable:
     def __init__ (self, rows=None):
         self.horizontal_str = ""
         if rows != None: 
@@ -14,7 +15,7 @@ class ptable:
             if prefix != "":
                 levels.append(prefix+str(i) for i in list(range(i,i+skip)))
             else: levels.append(i for i in list(range(i,i+skip)))
-        pt = ptable(levels)
+        pt = Ptable(levels)
         pt.make_row()
 
         for level in not_attended:
@@ -26,6 +27,9 @@ class ptable:
 
 
         print(pt.horizontal_str)
+        print(color_text("▬", bcolors.CORRECT)," --- Correct")
+        print(color_text("▬", bcolors.FAIL)," --- Incorrect")
+        print(color_text("▬", bcolors.NOTATTENDED)," --- Not Attended")
 
     def make_row(self):
         for row in self.rows:
