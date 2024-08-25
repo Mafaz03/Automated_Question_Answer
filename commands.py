@@ -103,6 +103,7 @@ For more detailed information, you can visit the Wikipedia page: {wikipedia_link
 question_comm = {"description": "Jump into questions", "mcq": mcq, "learn_more": learn_more}
 
 class ASCII:
+    # font: Soft
     @classmethod
     def menu(*_):
         print(f"""{bcolors.BRIGHT_GREEN}
@@ -110,4 +111,13 @@ class ASCII:
     |        || .-. :|      \|  ||  | 
     |  |  |  |\   --.|  ||  |'  ''  ' 
     `--`--`--' `----'`--''--' `----'  
+              {bcolors.RESET}""")
+        
+    def CirGen(*_):
+        print(f"""{bcolors.BRIGHT_GREEN}                                                                                                                                                   
+    ,-----.                      ,--.              ,--.                       ,----.                                          ,--.  ,--.                
+    '  .--./,--.,--.,--.--.,--.--.`--' ,---.,--.,--.|  |,--.,--.,--,--,--.    '  .-./    ,---. ,--,--,  ,---. ,--.--. ,--,--.,-'  '-.`--' ,---. ,--,--,  
+    |  |    |  ||  ||  .--'|  .--',--.| .--'|  ||  ||  ||  ||  ||        |    |  | .---.| .-. :|      \| .-. :|  .--'' ,-.  |'-.  .-',--.| .-. ||      \ 
+    '  '--'\'  ''  '|  |   |  |   |  |\ `--.'  ''  '|  |'  ''  '|  |  |  |    '  '--'  |\   --.|  ||  |\   --.|  |   \ '-'  |  |  |  |  |' '-' '|  ||  | 
+    `-----' `----' `--'   `--'   `--' `---' `----' `--' `----' `--`--`--'     `------'  `----'`--''--' `----'`--'    `--`--'  `--'  `--' `---' `--''--' 
               {bcolors.RESET}""")

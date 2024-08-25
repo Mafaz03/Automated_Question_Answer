@@ -4,6 +4,7 @@ from commands import *
 from prettytable import PrettyTable
 from colors import *
 from helper_code import color_text
+from qa_curiculam_gen import AIQuestionGenerator
 
 
 def show_table(rows):
@@ -73,7 +74,7 @@ class sample_repl:
         while self.ques_number == 0 or self.ques_number%5 != 0 :
             self.ques_number = int(input("Enter a valid number of questions (make sure it is divisble by 5) (-1 to escape): "))
             if self.ques_number == -1: break
-        self.subject = str(input("Enter a subject: "))
+        self.subject = str(input("Enter a Subject/Domain: "))
         self.difficulty = str(input("Enter difficulty (0-100): "))
 
         self.skip_val = 5
@@ -117,6 +118,33 @@ class sample_repl:
             # print(self.i)
             self.arguments = self.arguments[:-1]
             # print(self.arguments)
+    def ciriculam_based_QA(self):
+        ASCII.CirGen()
+        # show_table([["Command", "Description"]] + [[k, comm[k].__doc__] for k in list(comm.keys()) if k != "description"] + [['gen questions', 'Generate questions based on ciriculam']])
+        filepath = input("Enter ciriculam file path: ")
+        num_questions = self.ques_number
+        hardness = 'medium'
+        if int(self.difficulty) <= 33:
+            hardness = 'easy'
+        elif int(self.difficulty) >= 33:
+            hardness = 'hard'
+        difficulty = hardness
+        output_format = input("Enter the output format (pdf, excel): ")
+        ok = "y"
+        while ok == "y":
+            generator = AIQuestionGenerator(filepath)
+            generator.add_unwanted_phrase("key topics covered")
+            generator.add_unwanted_phrase("common pitfalls")
+            generator.add_unwanted_phrase("key considerations")
+            questions = generator.generate_questions(num_questions, difficulty, self.subject)
+            
+            show_all = input("Print out all the questions as preview?: [Y/N]: ")
+            if show_all.lower() == "y":
+                for i in questions: print(i, end="\n\n")
+            else:
+                print("\n".join(questions)[:300] + "...")
+            ok = str(input("Re-Generate or Proceed?: [Y/N]: ")).lower()
+        generator.save_questions(questions, output_format)
 
 r = sample_repl()
-r.mcq()
+r.ciriculam_based_QA()
