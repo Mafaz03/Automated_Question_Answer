@@ -147,4 +147,4 @@ class sample_repl:
         generator.save_questions(questions, output_format)
 
 r = sample_repl()
-r.ciriculam_based_QA()
+r.mcq()

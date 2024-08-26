@@ -3,8 +3,17 @@ from ptable import *
 import requests
 
 
+def print_bar_graph(data, bar_char='█', width=50):
+    print("\n\n")
+    max_value = max(data.values())
+    
+    for key, value in data.items():
+        bar_length = int((value / max_value) * width)
+        bar = bar_char * bar_length
+        print(f'{key}: {bar} {value}', end='\n')
+    print("\n\n")
 def subjects(*_):
-    """Gets the subjects list"""
+    """Gets the subjects list (stil dev..)"""
     rows = [["Physics", "Chemistry", "Math", "Biology"], ["Computer Science", "Soft Skills", "Aptitude", "English"], ["French", "Machine Learning", "Data Mining", "Statistics"]]
     pt = Ptable(rows)
     pt.make_row()
@@ -26,7 +35,20 @@ def help(*_):
     """View possible commands"""
     pass
 
-comm = {"description": "Explore the menu for this tool", "subjects": subjects, "score": score, "help": help}
+def report(_, ques_number, __, correct, failed, not_attended):
+    """Generates report"""
+    keys = ["Total Questions|", "Correct|", "failed|", "not_attended|"]
+    max_len = len(max(keys, key=len))
+    data = {
+        " "*(max_len-len(keys[0])) + keys[0]: ques_number,
+        " "*(max_len-len(keys[1])) + keys[1]: len(correct),
+        " "*(max_len-len(keys[2])) + keys[2]: len(failed),
+        " "*(max_len-len(keys[3])) + keys[3]: ques_number - (len(correct)+len(failed))
+    }
+    print_bar_graph(data=data)
+
+
+comm = {"description": "Explore the menu for this tool", "subjects": subjects, "score": score, "help": help, "report": report}
 
 def mcq(topic, difficulty, asked, *_):
     """Generates mcq"""
