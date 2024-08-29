@@ -6,6 +6,15 @@ from colors import *
 from helper_code import color_text
 from qa_curiculam_gen import AIQuestionGenerator
 
+def loop_till(t, msg, target):
+    m = msg
+    msg = t(input(m))
+    if not isinstance(target, list): target = [target]
+    target = [i.lower() for i in target]
+    while t(msg.lower()) not in target:
+        print("Invalid Command")
+        msg = t(input(m))
+    return msg
 
 def show_table(rows):
     pt = Ptable(rows)
@@ -18,7 +27,6 @@ def show_ptable(rows):
     for row in rows[1:]:
         pt.add_row(row)
     print(pt)
-
 
 class MCQ:
     def __init__(self):
@@ -34,7 +42,6 @@ class MCQ:
                 mcq_q = '\n'.join(mcq_qa[:-1])
                 mcq_a = ''.join(mcq_qa[-1])
                 asked.append(mcq_qa[0])
-                # import pdb; pdb.set_trace()
                 print('\n'+color_text(mcq_q,bcolors.BRIGHT_MAGENTA))
                 usi = str(input(f"Question numer {i+1}; Enter option (a-d): "))
                 if usi.lower() == 'help':
@@ -145,6 +152,40 @@ class sample_repl:
                 print("\n".join(questions)[:300] + "...")
             ok = str(input("Re-Generate or Proceed?: [Y/N]: ")).lower()
         generator.save_questions(questions, output_format)
+    
+def self_asses():
+    """Self asseses"""
+    print("You are amazing")
 
-r = sample_repl()
-r.mcq()
+def request_plan():
+    """Request personalised learning plan"""
+    # Add Logic here
+
+def mcq():
+    """Start mcq"""
+    r = sample_repl()
+    r.mcq()
+
+
+def ciriculam():
+    """Generate question bank from Circiculam"""
+    r = sample_repl()
+    r.ciriculam_based_QA()
+
+rol_activity = {'user': {"self asses": self_asses, "request plan": request_plan, "mcq": mcq}, "trainer": {"ciriculam gen": ciriculam}}
+
+class access:
+    def roles():
+        show_table([["Roles", "Description"]] + [[k, roles_auth[k].__doc__] for k in list(roles_auth.keys()) if k != "description"])
+        au = loop_till(str, "Enter role: ", ["trainer", "trainer"])
+        grant = roles_auth[au]()
+        if grant: 
+            print(f"\nWELCOME\nAccess granted {au}")
+            show_table([["Command", "Description"]] + [[k, rol_activity[au][k].__doc__] for k in list(rol_activity[au].keys()) if k != "description"])
+            a = loop_till(str, "What activity would you like to perform: ", list(rol_activity[au].keys()))
+            rol_activity[au][a]()
+
+
+
+a = access
+a.roles()

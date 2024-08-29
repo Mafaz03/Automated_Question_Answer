@@ -119,10 +119,26 @@ For more detailed information, you can visit the Wikipedia page: {wikipedia_link
    # return f"Wikipedia article on {keyword}"...Call the function(learn_more(keyword)).. 
    
     
-
-
-    
 question_comm = {"description": "Jump into questions", "mcq": mcq, "learn_more": learn_more}
+
+registered = {'trainer': ["mafaz", "doremon"], 'user': ["Mafaz", "Doremon"]}
+
+def trainer():
+    """Trainer Access"""
+    user = str(input("\nEnter username: "))
+    password = str(input("Enter password: "))
+    if registered['trainer'][0] == user and registered['trainer'][1] == password: return True
+    else: False
+
+def user():
+    """User Access"""
+    user = str(input("\nEnter username: "))
+    password = str(input("Enter password: "))
+    if registered['user'][0] == user and registered['user'][1] == password: return True
+    else: False
+    
+
+roles_auth = {"description": "Roles", "trainer": trainer, "user": user}
 
 class ASCII:
     # font: Soft

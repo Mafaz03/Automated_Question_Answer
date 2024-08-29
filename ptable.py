@@ -25,7 +25,6 @@ class Ptable:
         for level in failed:
             pt.horizontal_str = pt.horizontal_str.replace(f"Level: {level}", bcolors.FAIL+f"Level: {level}"+bcolors.RESET, 1)
 
-
         print(pt.horizontal_str)
         print(color_text("▬", bcolors.CORRECT)," --- Correct")
         print(color_text("▬", bcolors.FAIL)," --- Incorrect")
