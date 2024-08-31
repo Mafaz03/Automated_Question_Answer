@@ -6,6 +6,10 @@ from colors import *
 from helper_code import color_text
 from qa_curiculam_gen import AIQuestionGenerator
 
+from analyzer import process_curriculum_file, analyze_curriculum
+from docCreator import create_learning_plan
+
+
 def loop_till(t, msg, target):
     m = msg
     msg = t(input(m))
@@ -155,11 +159,15 @@ class sample_repl:
     
 def self_asses():
     """Self asseses"""
-    print("You are amazing")
+    print("In Developnment.....")
 
 def request_plan():
     """Request personalised learning plan"""
-    # Add Logic here
+    file_path = input("Please enter the path to your curriculum file (.pdf or .docx): ")
+    curriculum_text = process_curriculum_file(file_path)
+    analysis_text = analyze_curriculum(curriculum_text)
+    create_learning_plan(analysis_text)
+    print("Learning plan document has been created as a PDF.")
 
 def mcq():
     """Start mcq"""
