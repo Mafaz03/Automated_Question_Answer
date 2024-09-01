@@ -28,9 +28,9 @@ The Automated Question Builder Application is a comprehensive platform designed 
 - **Provides Actionable Insights:** Offers detailed performance metrics and recommendations, helping students and educators to identify strengths and areas for improvement.
 
 ## User Roles
-
+- **Administrator:** Manages users, uploads curriculum, generates questions, and monitors overall application performance.
 - **Users:** Access personalized content, track scores, and generate reports.
-- **Admins:** Manage users, upload curriculum, generate questions, and monitor overall application performance.
+- **Trainers:** Uploads the curriculum, generates, reviews, and downloads question banks, and provides feedback.
 
 ## Programming Languages & Technologies
 
