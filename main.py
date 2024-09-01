@@ -183,6 +183,7 @@ def ciriculam():
 rol_activity = {'user': {"self asses": self_asses, "request plan": request_plan, "mcq": mcq}, "trainer": {"ciriculam gen": ciriculam}}
 
 class access:
+    ASCII.Welcome()
     def roles():
         show_table([["Roles", "Description"]] + [[k, roles_auth[k].__doc__] for k in list(roles_auth.keys()) if k != "description"])
         au = loop_till(str, "Enter role: ", ["trainer", "user"])

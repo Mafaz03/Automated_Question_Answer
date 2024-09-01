@@ -141,6 +141,7 @@ def user():
 roles_auth = {"description": "Roles", "trainer": trainer, "user": user}
 
 class ASCII:
+    # website: https://patorjk.com/software/taag/#p=display&f=Soft&t=Welcome
     # font: Soft
     @classmethod
     def menu(*_):
@@ -150,7 +151,7 @@ class ASCII:
     |  |  |  |\   --.|  ||  |'  ''  ' 
     `--`--`--' `----'`--''--' `----'  
               {bcolors.RESET}""")
-        
+    @classmethod  
     def CirGen(*_):
         print(f"""{bcolors.BRIGHT_GREEN}                                                                                                                                                   
     ,-----.                      ,--.              ,--.                       ,----.                                          ,--.  ,--.                
@@ -158,4 +159,14 @@ class ASCII:
     |  |    |  ||  ||  .--'|  .--',--.| .--'|  ||  ||  ||  ||  ||        |    |  | .---.| .-. :|      \| .-. :|  .--'' ,-.  |'-.  .-',--.| .-. ||      \ 
     '  '--'\'  ''  '|  |   |  |   |  |\ `--.'  ''  '|  |'  ''  '|  |  |  |    '  '--'  |\   --.|  ||  |\   --.|  |   \ '-'  |  |  |  |  |' '-' '|  ||  | 
     `-----' `----' `--'   `--'   `--' `---' `----' `--' `----' `--`--`--'     `------'  `----'`--''--' `----'`--'    `--`--'  `--'  `--' `---' `--''--' 
+              {bcolors.RESET}""")
+        
+    @classmethod  
+    def Welcome(*_):
+        print(f"""{bcolors.BRIGHT_GREEN}                                                                                                                                                   
+    ,--.   ,--.       ,--.                               
+    |  |   |  | ,---. |  | ,---. ,---. ,--,--,--. ,---.  
+    |  |.'.|  || .-. :|  || .--'| .-. ||        || .-. : 
+    |   ,'.   |\   --.|  |\ `--.' '-' '|  |  |  |\   --. 
+    '--'   '--' `----'`--' `---' `---' `--`--`--' `----'                                                      
               {bcolors.RESET}""")
