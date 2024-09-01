@@ -121,7 +121,7 @@ For more detailed information, you can visit the Wikipedia page: {wikipedia_link
     
 question_comm = {"description": "Jump into questions", "mcq": mcq, "learn_more": learn_more}
 
-registered = {'trainer': ["mafaz", "doremon"], 'user': ["Mafaz", "Doremon"]}
+registered = {'trainer': ["trainer", "123"], 'user': ["user", "123"]}
 
 def trainer():
     """Trainer Access"""

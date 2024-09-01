@@ -185,7 +185,7 @@ rol_activity = {'user': {"self asses": self_asses, "request plan": request_plan,
 class access:
     def roles():
         show_table([["Roles", "Description"]] + [[k, roles_auth[k].__doc__] for k in list(roles_auth.keys()) if k != "description"])
-        au = loop_till(str, "Enter role: ", ["trainer", "trainer"])
+        au = loop_till(str, "Enter role: ", ["trainer", "user"])
         grant = roles_auth[au]()
         if grant: 
             print(f"\nWELCOME\nAccess granted {au}")
