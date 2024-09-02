@@ -78,7 +78,12 @@ To install and run the application locally:
 git clone https://github.com/your-username/automated-question-builder.git
 cd automated-question-builder
 pip install -r requirements.txt
-python manage.py runserver
+python main.py
+```
+
+Make sure the .env file is configured 
+```bash
+OPENAI='Enter API Key here'
 ```
 
 ## Contributing
