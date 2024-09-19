@@ -13,6 +13,16 @@ from plotly.subplots import make_subplots
 
 from admin_dashboard_helper import network_load, user_names, new_users, users_month, users_year, active_users, study_time
 
+def drawText_Admin_Dashbaord():
+    return html.Div([
+        dbc.Card(
+            dbc.CardBody([
+                html.Div([
+                    html.H2("ADMIN Dashbaord"),
+                ], style={'textAlign': 'center'})
+            ])
+        ),
+    ])
 
 def drawFigure_Users_Month():
     fig = users_month()
@@ -179,19 +189,20 @@ def drawFigure_Network_load():
         ),
     ]) 
 
-
-# Text field
-def drawText_Admin_Dashbaord():
+def drawFigure_User_Insight():
     return html.Div([
         dbc.Card(
             dbc.CardBody([
-                html.Div([
-                    html.H2("ADMIN Dashbaord"),
-                ], style={'textAlign': 'center'})
+                dcc.Graph(
+                    figure=user_insight().update_layout(
+                        template='plotly_dark',
+                        plot_bgcolor='rgba(2, 2, 2, 0.4)',
+                        paper_bgcolor='rgba(0, 0, 0, 0)',
+                    ),
+                    config={
+                        'displayModeBar': False
+                    }
+                )
             ])
         ),
-    ])
-
-
-# Data
-df = px.data.iris()
+    ]) 

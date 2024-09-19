@@ -11,7 +11,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from user_dashboard_helper import *
+from report_dashbaord_helper import *
 
 def return_html(figure):
     return html.Div([
@@ -28,46 +28,19 @@ def return_html(figure):
         ])
 
 
-def drawText_User_Dashbaord():
+def drawText_Report_Dashbaord():
     return html.Div([
         dbc.Card(
             dbc.CardBody([
                 html.Div([
-                    html.H2("USER Dashbaord"),
+                    html.H2("REPORT"),
                 ], style={'textAlign': 'center'})
             ])
         ),
     ])
 
-def drawFigure_Users_Month():
-    fig = questions_attempt()
-    fig.update_layout(
-        template='plotly_dark',
-        plot_bgcolor='rgba(0, 0, 0, 0)',
-        paper_bgcolor='rgba(0, 0, 0, 0)',
-    )
-    return return_html(fig)
-
-def drawFigure_Correct_Incorrect():
-    fig = correct_incorrect()
-    fig.update_layout(
-        template='plotly_dark',
-        plot_bgcolor='rgba(0, 0, 0, 0)',
-        paper_bgcolor='rgba(0, 0, 0, 0)',
-    )
-    return return_html(fig)
-
-def drawFigure_Average():
-    fig = avg_score()
-    fig.update_layout(
-        template='plotly_dark',
-        plot_bgcolor='rgba(0, 0, 0, 0)',
-        paper_bgcolor='rgba(0, 0, 0, 0)',
-    )
-    return return_html(fig)
-
-def drawFigure_User_activity():
-    fig = user_activity()
+def drawFigure_Correct_incorrect(data):
+    fig = report_correct_incorrect(data)
     fig.update_layout(
         template='plotly_dark',
         plot_bgcolor='rgba(0, 0, 0, 0)',
@@ -76,9 +49,8 @@ def drawFigure_User_activity():
     return return_html(fig)
 
 
-
-def drawFigure_Leaderbaord():
-    fig = leaderbaord()
+def drawFigure_Average_score_Report(data):
+    fig = report_avg_score(data)
     fig.update_layout(
         template='plotly_dark',
         plot_bgcolor='rgba(0, 0, 0, 0)',
@@ -87,8 +59,18 @@ def drawFigure_Leaderbaord():
     return return_html(fig)
 
 
-def drawFigure_Test_Insight():
-    fig = test_insight()
+def drawFigure_Leaderbaord_Report():
+    fig = report_leaderboard()
+    fig.update_layout(
+        template='plotly_dark',
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+    )
+    return return_html(fig)
+
+
+def drawFigure_Time_Taken(data):
+    fig = time_taken_bar(data)
     fig.update_layout(
         template='plotly_dark',
         plot_bgcolor='rgba(0, 0, 0, 0)',

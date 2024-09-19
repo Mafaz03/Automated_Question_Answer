@@ -137,7 +137,7 @@ def new_users():
 
 def users_month():
     users = pd.DataFrame(
-        [["example",  datetime.date(random.randint(2021, 2024), random.randint(1, 12), random.randint(1, 28))] for i in range(1000)],
+        [["example",  datetime.date(random.randint(2021, 2024), random.randint(1, 12), random.randint(1, 28))] for i in range(2000)],
         columns=['Name', 'Join']
     )
     users['Join'] = pd.to_datetime(users['Join'])

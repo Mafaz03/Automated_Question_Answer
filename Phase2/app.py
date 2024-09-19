@@ -15,6 +15,7 @@ from admin_dashboard_helper import network_load, user_names, new_users, users_mo
 
 from admin_dashboard import *
 from user_dashboard import *
+from report_dashboard import *
 
 # Initialize the Flask app
 server = Flask(__name__)
@@ -36,6 +37,13 @@ user_dashboard = dash.Dash(
     __name__,
     server=server,
     url_base_pathname='/user_dashboard/',
+    external_stylesheets=[dbc.themes.SLATE]
+)
+
+report_dashboard = dash.Dash(
+    __name__,
+    server=server,
+    url_base_pathname='/report/',
     external_stylesheets=[dbc.themes.SLATE]
 )
 
@@ -104,8 +112,55 @@ user_dashboard.layout = html.Div([
             html.Br(),
             
             dbc.Row([
+                dbc.Col(drawFigure_Test_Insight(), width=3),
                 dbc.Col(drawFigure_Users_Month(), width=5),
+                dbc.Col(drawFigure_Correct_Incorrect(), width=4),
+
             ], align='center'),
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col(drawFigure_Average(), width=3),
+                dbc.Col(drawFigure_User_activity(), width=3),
+                dbc.Col(drawFigure_Leaderbaord(), width=5),
+
+            ], align='center'),
+
+            html.Br(),
+
+        ]), color='dark'
+    )
+])
+
+
+data = pd.DataFrame({
+    'Time Taken (seconds)': [1, 3, 6, 7],
+    'Points': [1, 0, 1, 0],  # 0 = Correct, 1 = Incorrect
+})
+data['Correct or Incorrect'] = data['Points'].map({0: 'Correct', 1: 'Incorrect'})
+
+report_dashboard.layout = html.Div([
+    dbc.Card(
+        dbc.CardBody([
+
+            dbc.Row([
+                dbc.Col(drawText_Report_Dashbaord(), width=20),
+            ], align='center'),
+
+
+            html.Br(),
+            
+            dbc.Row([
+                dbc.Col(drawFigure_Correct_incorrect(data), width=3),
+                dbc.Col(drawFigure_Average_score_Report(data), width=3),
+                dbc.Col(drawFigure_Time_Taken(data), width=3),
+                dbc.Col(drawFigure_Leaderbaord_Report(), width=3),
+            ], align='center'),
+
+            html.Br(),
+
+
 
         ]), color='dark'
     )
