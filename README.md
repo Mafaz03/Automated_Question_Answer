@@ -60,6 +60,7 @@ To run this project, you will need:
    ```bash
    git clone https://github.com/Mafaz03/Automated_Question_Answer
    cd Phase2
+   cd backend
    ```
 
 2. **Set up a virtual environment (optional but recommended):**
