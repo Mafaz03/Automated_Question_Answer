@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curriculum Based QA Generator</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+
+        background-color: #1b181a;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+      }
+
+      h1 {
+        color: white;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2.5rem;
+        letter-spacing: 1px;
+      }
+      h2 {
+        color: white;
+        margin-top: 40px;
+        font-size: 1.8rem;
+        border-bottom: 2px solid white;
+        padding-bottom: 10px;
+      }
+      form {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin: 0 auto 40px;
+        max-width: 600px;
+      }
+      label {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: black;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="number"],
+      input[type="file"] {
+        width: calc(100% - 22px);
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        transition: border-color 0.3s;
+      }
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      input[type="number"]:focus,
+      input[type="file"]:focus {
+        border-color: #3498db;
+        outline: none;
+      }
+
+      .button {
+        min-width: 120px;
+        font: bold;
+
+        position: relative;
+        cursor: pointer;
+
+        padding: 12px 17px;
+        border: 0;
+        border-radius: 7px;
+
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        background: radial-gradient(
+          ellipse at bottom,
+          rgba(71, 81, 92, 1) 0%,
+          rgba(11, 21, 30, 1) 45%
+        );
+
+        color: rgb(255, 255, 255, 0.66);
+
+        transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+      }
+
+      .button::before {
+        content: "";
+        width: 70%;
+        height: 1px;
+
+        position: absolute;
+        bottom: 0;
+        left: 15%;
+
+        background: rgb(255, 255, 255);
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 1) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        opacity: 0.2;
+
+        transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+      }
+
+      .button:hover {
+        color: rgb(255, 255, 255, 1);
+        transform: scale(1.1) translateY(-3px);
+      }
+
+      .button:hover::before {
+        opacity: 1;
+      }
+
+      .spinner {
+        display: none;
+        border: 4px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 4px solid #3498db;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background-color: #1e1c1d;
+        color: white;
+        font-size: 1.2rem;
+      }
+      #pdfOptions {
+        display: none;
+        margin-top: 20px;
+      }
+      #pdfOptions button {
+        color: white;
+        background-color: #fe1803;
+        style: bold;
+      }
+      #pdfOptions button:hover {
+        background-color: #219653;
+      }
+
+      #pdfOptions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
+      #viewPdf {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        transition: all 0.5s;
+      }
+      #downloadPdf {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        transition: all 0.5s;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2rem;
+        }
+        h2 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Upload PDF and Generate Questions</h1>
+    <form id="qaForm">
+      <label for="pdf">Upload PDF:</label>
+      <input type="file" id="pdf" name="pdf" required />
+
+      <label for="subject">Subject:</label>
+      <input type="text" id="subject" name="subject" required />
+
+      <label for="num_questions">Number of Questions:</label>
+      <input type="number" id="num_questions" name="num_questions" required />
+
+      <label for="difficulty">Difficulty (1-100):</label>
+      <input type="number" id="difficulty" name="difficulty" required />
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 0.5rem;
+        "
+      >
+        <button type="submit" class="button">Generate Questions PDF</button>
+      </div>
+    </form>
+
+    <div class="spinner" id="spinner"></div>
+
+    <div id="pdfOptions">
+      <button id="viewPdf">View PDF</button>
+      <button id="downloadPdf">Download PDF</button>
+    </div>
+
+    <h2>Recipients</h2>
+    <table id="recipientsTable">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Select</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="email" class="email" required /></td>
+          <td><input type="checkbox" class="select" /></td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+
+    <button id="addRow" class="button">Add Row</button>
+    <br />
+    <button id="sendEmails" style="display: none">Send PDF to Email</button>
+
+    <script>
+      let generatedPdfBlob = null;
+
+      // Automatically fill the first n rows of email with employee emails
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("/get_employee_emails")
+          .then((response) => response.json())
+          .then((data) => {
+            const emails = data.employee_emails;
+            const tbody = document.querySelector("#recipientsTable tbody");
+
+            // Define the number of rows to autofill, or use the length of emails list
+            const rowsToFill = Math.min(emails.length, 5); // Fill the first 5 rows
+
+            for (let i = 0; i < rowsToFill; i++) {
+              const newRow = document.createElement("tr");
+              newRow.innerHTML = `
+                <td><input type="email" class="email" value="${emails[i]}" required></td>
+                <td><input type="checkbox" class="select"></td>
+              `;
+              tbody.appendChild(newRow);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching employee emails:", error);
+          });
+      });
+
+      document
+        .getElementById("qaForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          document.getElementById("spinner").style.display = "block";
+
+          let formData = new FormData();
+          let pdf = document.getElementById("pdf").files[0];
+          let subject = document.getElementById("subject").value;
+          let num_questions = document.getElementById("num_questions").value;
+          let difficulty = document.getElementById("difficulty").value;
+          formData.append("pdf", pdf);
+          formData.append("subject", subject);
+          formData.append("num_questions", num_questions);
+          formData.append("difficulty", difficulty);
+
+          fetch("/question_generator_pdf", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.blob())
+            .then((blob) => {
+              generatedPdfBlob = blob;
+
+              document.getElementById("spinner").style.display = "none";
+              document.getElementById("pdfOptions").style.display = "block";
+              document.getElementById("sendEmails").style.display = "block";
+
+              const url = window.URL.createObjectURL(blob);
+
+              document
+                .getElementById("viewPdf")
+                .addEventListener("click", function () {
+                  window.open(url, "_blank");
+                });
+
+              document
+                .getElementById("downloadPdf")
+                .addEventListener("click", function () {
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "generated_questions.pdf";
+                  document.body.appendChild(a);
+                  a.click();
+                  window.URL.revokeObjectURL(url);
+                });
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              document.getElementById("spinner").style.display = "none";
+            });
+        });
+
+      document.getElementById("addRow").addEventListener("click", function () {
+        const tbody = document.querySelector("#recipientsTable tbody");
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+                <td><input type="email" class="email" required></td>
+                <td><input type="checkbox" class="select"></td>
+            `;
+        tbody.appendChild(newRow);
+      });
+
+      document
+        .getElementById("sendEmails")
+        .addEventListener("click", function () {
+          if (!generatedPdfBlob) {
+            alert("Please generate a PDF first.");
+            return;
+          }
+
+          const selectedEmails = [];
+          const rows = document.querySelectorAll("#recipientsTable tbody tr");
+          rows.forEach((row) => {
+            const checkbox = row.querySelector(".select");
+            if (checkbox.checked) {
+              const email = row.querySelector(".email").value;
+              if (email) {
+                selectedEmails.push(email);
+              }
+            }
+          });
+
+          if (selectedEmails.length === 0) {
+            alert("Please select at least one recipient.");
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append("pdf", generatedPdfBlob, "generated_questions.pdf");
+          formData.append("emails", JSON.stringify(selectedEmails));
+
+          fetch("/send_pdf_emails", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              alert(data.message);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("An error occurred while sending emails.");
+            });
+        });
+    </script>
+  </body>
+</html>
