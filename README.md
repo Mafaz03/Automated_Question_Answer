@@ -19,16 +19,6 @@ This project leverages OpenAI’s GPT-3.5 model to generate curriculum-based que
 
 ---
 
-## Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/Mafaz03/Automated_Question_Answer
-cd Automated_Question_Answer/Phase2
-pip install -r requirements.txt
-python3 app.py
-```
 
 ## Admin
 
@@ -68,8 +58,8 @@ To run this project, you will need:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-repository.git
-   cd your-repository
+   git clone https://github.com/Mafaz03/Automated_Question_Answer
+   cd Phase2
    ```
 
 2. **Set up a virtual environment (optional but recommended):**
@@ -96,7 +86,7 @@ To run this project, you will need:
 5. **Run the script:**
 
    ```bash
-   python your_script.py
+   python app.py
    ```
 
 ---
