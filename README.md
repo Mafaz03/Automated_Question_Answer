@@ -1,4 +1,4 @@
-# AI-Based Question Generator Using
+# AI-Based Question Generator
 
 ## Project Overview
 
