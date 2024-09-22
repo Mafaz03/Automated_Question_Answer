@@ -1,4 +1,4 @@
-# AI-Based Question Generator Using GPT-3.5
+# AI-Based Question Generator Using
 
 ## Project Overview
 
